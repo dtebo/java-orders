@@ -2,7 +2,9 @@ package com.lambdaschool.javaorders.models;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -23,6 +25,20 @@ public class Order {
     List<Order> orders = new ArrayList<>();
 
     private String orderdescription;
+
+    public Set<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Set<Payment> payments) {
+        this.payments = payments;
+    }
+
+    @ManyToMany()
+    @JoinTable(name = "orderpayments",
+               joinColumns = @JoinColumn(name = "ordernum"),
+               inverseJoinColumns = @JoinColumn(name = "paymentid"))
+    Set<Payment> payments = new HashSet<>();
 
     public Order() {
     }

@@ -1,4 +1,4 @@
-package com.lambdaschool.crudyrestaurants.config;
+package com.lambdaschool.javaorders.config;
 
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Value;
