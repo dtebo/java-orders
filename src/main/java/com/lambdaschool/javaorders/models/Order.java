@@ -18,11 +18,9 @@ public class Order {
 
     private double advanceamount;
 
-    @OneToMany(mappedBy = "order",
-               cascade = CascadeType.ALL,
-               orphanRemoval = true)
-    @Column(nullable = false)
-    List<Customer> customers = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "custcode")
+    Customer customer;
 
     private String orderdescription;
 
@@ -43,12 +41,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(double ordamount, double advanceamount, List<Customer> customers, String orderdescription, Set<Payment> payments) {
+    public Order(double ordamount, double advanceamount, Customer customer, String orderdescription) {
         this.ordamount = ordamount;
         this.advanceamount = advanceamount;
-        this.customers = customers;
+        this.customer = customer;
         this.orderdescription = orderdescription;
-        this.payments = payments;
     }
 
     public long getOrdernum() {
@@ -75,12 +72,12 @@ public class Order {
         this.advanceamount = advanceamount;
     }
 
-    public List<Customer> getCustomers() {
-        return customers;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomers(List<Customer> customers) {
-        this.customers = customers;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public String getOrderdescription() {
@@ -97,7 +94,7 @@ public class Order {
                 "ordernum=" + ordernum +
                 ", ordamount=" + ordamount +
                 ", advanceamount=" + advanceamount +
-                ", customers=" + customers +
+                ", customer=" + customer +
                 ", orderdescription='" + orderdescription + '\'' +
                 '}';
     }
