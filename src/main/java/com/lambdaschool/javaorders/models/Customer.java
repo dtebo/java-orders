@@ -8,6 +8,7 @@ import java.util.List;
 @Table(name = "customers")
 public class Customer {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, unique = true)
     private long custcode;
 
@@ -32,16 +33,18 @@ public class Customer {
 
     private String phone;
 
-    @OneToMany(mappedBy = "agent",
-               cascade = CascadeType.ALL,
-               orphanRemoval = true)
-    @Column(nullable = false)
-    List<Customer> customers = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "agentcode", nullable = false)
+    Agent agent;
+
+    @ManyToOne
+    @JoinColumn(name = "ordernum", nullable = false)
+    Order order;
 
     public Customer() {
     }
 
-    public Customer(String custname, String custcity, String workingarea, String custcountry, String grade, double openingamt, double receiveamt, double paymentamt, double outstandingamt, String phone, List<Customer> customers) {
+    public Customer(String custname, String custcity, String workingarea, String custcountry, String grade, double openingamt, double receiveamt, double paymentamt, double outstandingamt, String phone) {
         this.custname = custname;
         this.custcity = custcity;
         this.workingarea = workingarea;
@@ -52,7 +55,6 @@ public class Customer {
         this.paymentamt = paymentamt;
         this.outstandingamt = outstandingamt;
         this.phone = phone;
-        this.customers = customers;
     }
 
     public long getCustcode() {
@@ -143,14 +145,6 @@ public class Customer {
         this.phone = phone;
     }
 
-    public List<Customer> getCustomers() {
-        return customers;
-    }
-
-    public void setCustomers(List<Customer> customers) {
-        this.customers = customers;
-    }
-
     @Override
     public String toString() {
         return "Customer{" +
@@ -165,7 +159,6 @@ public class Customer {
                 ", paymentamt=" + paymentamt +
                 ", outstandingamt=" + outstandingamt +
                 ", phone='" + phone + '\'' +
-                ", customers=" + customers +
                 '}';
     }
 }
